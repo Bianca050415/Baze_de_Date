@@ -1,0 +1,53 @@
+-- Inserarea datelor în tabela RESTAURANTE
+INSERT INTO RESTAURANTE (id_restaurant, denumire, adresa, telefon) VALUES (1, 'Restaurantul Munteanu', 'Strada Mare 1, Bucuresti', '0712345678');
+INSERT INTO RESTAURANTE (id_restaurant, denumire, adresa, telefon) VALUES (2, 'Grillhouse Arena', 'Strada Sudului 12, Bucuresti', '0723456789');
+INSERT INTO RESTAURANTE (id_restaurant, denumire, adresa, telefon) VALUES (3, 'Bistro Trandafirul', 'Strada Lunga 10, Brasov', '0734567890');
+INSERT INTO RESTAURANTE (id_restaurant, denumire, adresa, telefon) VALUES (4, 'Pizzeria Familia', 'Strada Dacilor 5, Cluj-Napoca', '0745678901');
+INSERT INTO RESTAURANTE (id_restaurant, denumire, adresa, telefon) VALUES (5, 'Steakhouse Pădure', 'Strada Apusenilor 9, Timisoara', '0756789012');
+INSERT INTO RESTAURANTE (id_restaurant, denumire, adresa, telefon) VALUES (6, 'La Gustul Mării', 'Strada Maritimă 3, Constanta', '0767890123');
+INSERT INTO RESTAURANTE (id_restaurant, denumire, adresa, telefon) VALUES (7, 'La Vinuri & Brânzeturi', 'Strada Verde 7, Iași', '0778901234');
+
+-- Inserarea datelor în tabela PRODUSE
+INSERT INTO PRODUSE (id_produs, denumire, pret, cantitate, id_furnizor) VALUES (1, 'Carne de vită', 40.50, 100, 1);
+INSERT INTO PRODUSE (id_produs, denumire, pret, cantitate, id_furnizor) VALUES (2, 'Carne de porc', 35.00, 120, 2);
+INSERT INTO PRODUSE (id_produs, denumire, pret, cantitate, id_furnizor) VALUES (3, 'Carne de pui', 30.00, 200, 3);
+INSERT INTO PRODUSE (id_produs, denumire, pret, cantitate, id_furnizor) VALUES (4, 'Brânză telemea', 20.00, 150, 4);
+INSERT INTO PRODUSE (id_produs, denumire, pret, cantitate, id_furnizor) VALUES (5, 'Lapte de vacă', 5.00, 250, 5);
+INSERT INTO PRODUSE (id_produs, denumire, pret, cantitate, id_furnizor) VALUES (6, 'Carne de miel', 50.00, 80, 1);
+INSERT INTO PRODUSE (id_produs, denumire, pret, cantitate, id_furnizor) VALUES (7, 'Brânză de capră', 25.00, 130, 4);
+INSERT INTO PRODUSE (id_produs, denumire, pret, cantitate, id_furnizor) VALUES (8, 'Carne de curcan', 40.00, 110, 2);
+INSERT INTO PRODUSE (id_produs, denumire, pret, cantitate, id_furnizor) VALUES (9, 'Iaurt natural', 4.50, 300, 5);
+INSERT INTO PRODUSE (id_produs, denumire, pret, cantitate, id_furnizor) VALUES (10, 'Carne de vită tocată', 42.00, 90, 1);
+
+-- Inserarea datelor în tabela FURNIZORI
+INSERT INTO FURNIZORI (id_furnizor, denumire, adresa, telefon, PRODUSE_id_furnizor) VALUES (1, 'Furnizorul Carnii', 'Strada Carnurilor 8, Bucuresti', '0712348765', 1);
+INSERT INTO FURNIZORI (id_furnizor, denumire, adresa, telefon, PRODUSE_id_furnizor) VALUES (2, 'Lactate & Delicii', 'Strada Lactatelor 4, Brasov', '0723459876', 2);
+INSERT INTO FURNIZORI (id_furnizor, denumire, adresa, telefon, PRODUSE_id_furnizor) VALUES (3, 'Carne Proaspătă', 'Strada Proaspătă 11, Timisoara', '0734561234', 3);
+INSERT INTO FURNIZORI (id_furnizor, denumire, adresa, telefon, PRODUSE_id_furnizor) VALUES (4, 'Ferma Brânzeturilor', 'Strada Măgurii 16, Cluj-Napoca', '0745671122', 4);
+INSERT INTO FURNIZORI (id_furnizor, denumire, adresa, telefon, PRODUSE_id_furnizor) VALUES (5, 'Lactate Naturale', 'Strada Fermei 20, Constanta', '0756784455', 5);
+
+-- Inserarea datelor în tabela COMENZI
+INSERT INTO COMENZI (id_comanda, id_restaurant, id_produs, data_comanda, cantitate, RESTAURANTE_id_restaurant) VALUES (1, 1, 1, TO_DATE('2025-01-01', 'YYYY-MM-DD'), 10, 1);
+INSERT INTO COMENZI (id_comanda, id_restaurant, id_produs, data_comanda, cantitate, RESTAURANTE_id_restaurant) VALUES (2, 2, 4, TO_DATE('2025-01-02', 'YYYY-MM-DD'), 5, 2);
+INSERT INTO COMENZI (id_comanda, id_restaurant, id_produs, data_comanda, cantitate, RESTAURANTE_id_restaurant) VALUES (3, 3, 6, TO_DATE('2025-01-03', 'YYYY-MM-DD'), 8, 3);
+INSERT INTO COMENZI (id_comanda, id_restaurant, id_produs, data_comanda, cantitate, RESTAURANTE_id_restaurant) VALUES (4, 4, 7, TO_DATE('2025-01-04', 'YYYY-MM-DD'), 7, 4);
+INSERT INTO COMENZI (id_comanda, id_restaurant, id_produs, data_comanda, cantitate, RESTAURANTE_id_restaurant) VALUES (5, 5, 2, TO_DATE('2025-01-05', 'YYYY-MM-DD'), 12, 5);
+INSERT INTO COMENZI (id_comanda, id_restaurant, id_produs, data_comanda, cantitate, RESTAURANTE_id_restaurant) VALUES (6, 6, 3, TO_DATE('2025-01-06', 'YYYY-MM-DD'), 15, 6);
+
+-- Inserarea datelor în tabela "comenzi-produse"
+INSERT INTO "comenzi-produse" (id_produs, id_comanda, cantitate, P_id_produs, C_id_comanda, C_R_id_restaurant) VALUES (1, 1, 10, 1, 1, 1);
+INSERT INTO "comenzi-produse" (id_produs, id_comanda, cantitate, P_id_produs, C_id_comanda, C_R_id_restaurant) VALUES (4, 2, 5, 4, 2, 2);
+INSERT INTO "comenzi-produse" (id_produs, id_comanda, cantitate, P_id_produs, C_id_comanda, C_R_id_restaurant) VALUES (6, 3, 8, 6, 3, 3);
+INSERT INTO "comenzi-produse" (id_produs, id_comanda, cantitate, P_id_produs, C_id_comanda, C_R_id_restaurant) VALUES (7, 4, 7, 7, 4, 4);
+INSERT INTO "comenzi-produse" (id_produs, id_comanda, cantitate, P_id_produs, C_id_comanda, C_R_id_restaurant) VALUES (2, 5, 12, 2, 5, 5);
+INSERT INTO "comenzi-produse" (id_produs, id_comanda, cantitate, P_id_produs, C_id_comanda, C_R_id_restaurant) VALUES (3, 6, 15, 3, 6, 6);
+
+-- Inserarea datelor în tabela "prod-com"
+INSERT INTO "prod-com" (PRODUSE_id_produs, COMENZI_id_comanda, COMENZI_id_restaurant1) VALUES (1, 1, 1);
+INSERT INTO "prod-com" (PRODUSE_id_produs, COMENZI_id_comanda, COMENZI_id_restaurant1) VALUES (4, 2, 2);
+INSERT INTO "prod-com" (PRODUSE_id_produs, COMENZI_id_comanda, COMENZI_id_restaurant1) VALUES (6, 3, 3);
+INSERT INTO "prod-com" (PRODUSE_id_produs, COMENZI_id_comanda, COMENZI_id_restaurant1) VALUES (7, 4, 4);
+INSERT INTO "prod-com" (PRODUSE_id_produs, COMENZI_id_comanda, COMENZI_id_restaurant1) VALUES (2, 5, 5);
+INSERT INTO "prod-com" (PRODUSE_id_produs, COMENZI_id_comanda, COMENZI_id_restaurant1) VALUES (3, 6, 6);
+
+

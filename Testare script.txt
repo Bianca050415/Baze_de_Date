@@ -1,0 +1,104 @@
+--Tranzactie
+
+BEGIN
+    -- Începerea tranzacției
+    SAVEPOINT tranzactie_start;
+    
+    -- Adăugăm un restaurant nou
+    INSERT INTO RESTAURANTE (id_restaurant, denumire, adresa, telefon) 
+    VALUES (8, 'La Bifteki', 'Strada Lunga 12, Brașov', '0789001122');
+
+    -- Adăugăm produse pentru restaurantul nou
+    INSERT INTO PRODUSE (id_produs, denumire, pret, cantitate, id_furnizor) 
+    VALUES (11, 'Carne de vită tocată', 45.00, 60, 1);
+    
+    INSERT INTO PRODUSE (id_produs, denumire, pret, cantitate, id_furnizor) 
+    VALUES (12, 'Brânză feta', 18.00, 100, 4);
+    
+    -- Confirmarea tranzacției
+    COMMIT;
+    
+EXCEPTION
+    WHEN OTHERS THEN
+        -- Dacă există o eroare, facem rollback
+        ROLLBACK TO tranzactie_start;
+        RAISE;
+END;
+
+
+-- Vizualizare restaurante
+SELECT * FROM RESTAURANTE;
+
+
+-- Vizualizare produse
+SELECT * FROM PRODUSE;
+
+
+-- Vizualizare comenzi și produsele asociate
+SELECT C.id_comanda, R.denumire AS restaurant, P.denumire AS produs, CP.cantitate
+FROM COMENZI C
+JOIN RESTAURANTE R ON C.RESTAURANTE_id_restaurant = R.id_restaurant
+JOIN "comenzi-produse" CP ON CP.id_comanda = C.id_comanda
+JOIN PRODUSE P ON CP.id_produs = P.id_produs;
+
+
+
+
+-- Adăugare restaurant nou
+INSERT INTO RESTAURANTE (id_restaurant, denumire, adresa, telefon)
+VALUES (9, 'Grădina Aromelor', 'Strada Florilor 22, Ploiești', '0789002233');
+
+
+
+-- Modificare preț produs
+UPDATE PRODUSE
+SET pret = 60.00
+WHERE id_produs = 13; --nu exista produs cu id 13
+--0 rows updated
+
+
+-- Modificare preț produs
+UPDATE PRODUSE
+SET pret = 60.00
+WHERE id_produs = 10;
+--1 row updated
+
+
+-- Ștergere produs
+DELETE FROM PRODUSE 
+WHERE id_produs = 12;
+
+-- Verificare produse
+SELECT * FROM PRODUSE WHERE id_produs = 12;
+
+
+
+-- Inserare comandă cu un restaurant inexistent
+INSERT INTO COMENZI (id_comanda, id_restaurant, id_produs, data_comanda, cantitate, RESTAURANTE_id_restaurant)
+VALUES (8, 999, 1, TO_DATE('2025-01-05', 'YYYY-MM-DD'), 3, 999);
+--violated - parent key not found
+
+
+
+
+-- Use-case: Crearea unei comenzi cu date invalide
+-- Descriere: Se încearcă inserarea unei comenzi cu un produs inexistent sau un restaurant inexistent.
+-- Acest script va verifica dacă constrângerile `FOREIGN KEY` și `CHECK` sunt respectate.
+
+BEGIN
+    -- Încercare de inserare comanda cu un restaurant inexistent
+    INSERT INTO COMENZI (id_comanda, id_restaurant, id_produs, data_comanda, cantitate, RESTAURANTE_id_restaurant)
+    VALUES (11, 999, 5, TO_DATE('2025-01-05', 'YYYY-MM-DD'), 1, 999);  -- restaurantul 999 nu există
+
+    -- Încercare de inserare comanda cu un produs inexistent
+    INSERT INTO COMENZI (id_comanda, id_restaurant, id_produs, data_comanda, cantitate, RESTAURANTE_id_restaurant)
+    VALUES (12, 3, 999, TO_DATE('2025-01-05', 'YYYY-MM-DD'), 1, 3);  -- produsul 999 nu există
+
+EXCEPTION
+    WHEN OTHERS THEN
+        -- Dacă apare vreo eroare (de exemplu, constrângerea FK sau dată incorectă), se face rollback
+        ROLLBACK;
+        DBMS_OUTPUT.PUT_LINE('Eroare: ' || SQLERRM);
+END;
+
+
